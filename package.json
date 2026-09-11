@@ -2,16 +2,27 @@
   "name": "@nyuchi/packages-ui",
   "version": "0.1.0",
   "private": true,
-  "description": "Nyuchi Design System — shared, publishable UI packages. Nyuchi's implementation of the Mzizi architecture.",
+  "description": "Nyuchi Design System \u2014 shared, publishable UI packages. Nyuchi's implementation of the Mzizi architecture.",
   "type": "module",
   "license": "MIT",
   "author": "Nyuchi Africa (Pvt) Ltd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nyuchi/packages-ui.git"
+    "url": "git+https://github.com/mukoko-dev/packages-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/nyuchi/packages-ui/issues"
+    "url": "https://github.com/mukoko-dev/packages-ui/issues"
+  },
+  "scripts": {
+    "canon:fetch": "node scripts/fetch-canon.mjs",
+    "canon:parity": "node scripts/check-canon-parity.mjs",
+    "tokens:build": "node scripts/generate-tokens.mjs",
+    "tokens:check": "node scripts/generate-tokens.mjs --check",
+    "format": "prettier --write \"**/*.{md,mdx,json,jsonc}\" --config .prettierrc --ignore-path .prettierignore --no-error-on-unmatched-pattern",
+    "format:check": "prettier --check \"**/*.{md,mdx,json,jsonc}\" --config .prettierrc --ignore-path .prettierignore --no-error-on-unmatched-pattern"
+  },
+  "devDependencies": {
+    "prettier": "3.9.4"
   },
   "engines": {
     "node": ">=20",
