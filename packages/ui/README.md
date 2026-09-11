@@ -1,7 +1,7 @@
 # @nyuchi/ui
 
 Svelte 5 / SvelteKit component library for the **Nyuchi Design System** —
-accessible primitives built on the seven African-mineral tokens. Nyuchi's
+accessible primitives built on the Mzizi tokens. Nyuchi's
 implementation of the [Mzizi](https://mzizi.dev) architecture. This is the
 **app-UI layer** for Nyuchi apps, which are built on SvelteKit.
 
@@ -33,19 +33,49 @@ import components anywhere:
 
 ```ts
 // app.css / root layout
-import "@nyuchi/ui/styles/globals.css";       // 7 minerals + semantic tokens
-import "@nyuchi/ui/styles/brand-nyuchi.css";  // gold primary (or brand-bundu / brand-mukoko)
+import "@nyuchi/ui/styles/tokens.css"; // all 21 colour families + semantic tokens
+import "@nyuchi/ui/styles/brand-nyuchi.css"; // gold primary
 ```
 
-`globals.css` ships the seven minerals (light + dark), the semantic tokens,
-and `@layer` component/utility classes. The canonical `--primary` / `--ring`
-mineral is **cobalt**; a brand overlay remaps them:
+`tokens.css` carries the whole Mzizi palette — **21 colour families** under one
+`--color-*` namespace (7 minerals, 7 heritage tones, 7 experimental tones), the
+nine-step surface ladder (`--pitch --void --base --surface --container --overlay
+--raised --scrim --wash`), the connectivity status trio (`--syncing --offline
+--neutral`) and the semantic (shadcn) contract, in light and dark.
 
-| Overlay            | Primary mineral |
-| ------------------ | --------------- |
-| `brand-bundu.css`  | terracotta      |
-| `brand-nyuchi.css` | gold            |
-| `brand-mukoko.css` | tanzanite       |
+It is **generated** — see the [repo README](../../README.md#tokens) — and is
+byte-identical to `@bundu/ui`'s. Until 0.2.0 this package carried its own
+hand-written copy of the palette inside `globals.css`, which had drifted and
+disagreed with `@bundu/ui` about Bundu's own brand mineral. That copy is gone.
+
+`globals.css` now just `@import`s `tokens.css` and adds the `@layer`
+component/utility classes the Svelte components lean on. Tailwind v4 users
+should import `theme.css` instead — it `@import`s `tokens.css` and adds a
+native `@theme` entrypoint, so no `tailwind.config.mjs` is needed.
+
+The unbranded `--primary` / `--ring` default is **tanzanite** / **cobalt**
+(canon: "Cobalt is the exceptional mineral for links/info only — do not use it
+as `--primary`"). A brand overlay remaps `--primary` and `--ring`, and nothing
+else:
+
+| Overlay              | Primary mineral     |
+| -------------------- | ------------------- |
+| `brand-bundu.css`    | copper              |
+| `brand-nyuchi.css`   | gold                |
+| `brand-mukoko.css`   | tanzanite           |
+| `brand-shamwari.css` | sodalite            |
+| `brand-mzizi.css`    | hematite (heritage) |
+
+### Outside the browser
+
+`tokens.json` ships the same values machine-readable, including every custom
+property resolved to a literal hex per mode — for Expo and for Satori-based
+OG-image / email / PDF generators, neither of which can resolve a CSS variable.
+
+```js
+import tokens from "@nyuchi/ui/tokens.json" with { type: "json" };
+tokens.resolved.dark["--color-savanna"]; // "#e5c158"
+```
 
 ### Tailwind consumers
 
